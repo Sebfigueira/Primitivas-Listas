@@ -12,6 +12,8 @@ void imprimir_lista(Node *);
 void buscar_lista(Node *, int);
 void eliminar_elemento_lista(Node *&, int);
 void eliminar_lista_entera(Node *&);
+void invertir_lista(Node *&);
+void pares_impares(Node *&);
 
 Node *lista = NULL;
 
@@ -29,7 +31,9 @@ void menu(){
         cout<<"3. Buscar un elemento de la lista\n";
         cout<<"4. Eliminar un elemento de la lista\n";
         cout<<"5. Eliminar la lista entera\n";
-        cout<<"6. Salir\n";
+        cout<<"6. Invertir la lista\n";
+        cout<<"7. Ordenar primero los pares y luego los impares\n";
+        cout<<"8. Salir\n";
         cout<<"\n";
         cin>>option;
 
@@ -54,8 +58,14 @@ void menu(){
 
             case 5: eliminar_lista_entera(lista);
                     break;
+
+            case 6: invertir_lista(lista);
+                    break;
+
+            case 7: pares_impares(lista);
+                    break;
         }
-    }while(option!=6);
+    }while(option!=8);
     
 }
 
@@ -146,4 +156,58 @@ void eliminar_lista_entera(Node *&lista){
         cout<<"Eliminado exitosamente\n";
         cout<<"\n";
     }
+}
+
+void invertir_lista(Node *&lista){
+    Node *aux1 = lista;
+    Node *aux2 = lista;
+    Node * aux3 = NULL;
+    while(aux1 != NULL){
+        if(aux1 == lista){
+            aux2 = aux1;
+            aux1 = aux1 -> next;
+            aux2 -> next = NULL;
+        }
+        else{
+            aux3 = aux2;
+            aux2 = aux1;
+            aux1 = aux1 -> next;
+            aux2 -> next = aux3;
+        }
+    }
+    aux2 -> next = aux3;
+    lista = aux2;
+}
+
+void pares_impares(Node *&lista){
+    Node *aux1 = lista;
+    Node *aux2 = NULL;
+    Node *aux3 = NULL;
+    Node *aux4, *aux5;
+    while(aux1 != NULL){
+        if((aux1 -> value) % 2 == 0){
+            if(aux2 == NULL){
+                aux2 = aux1;
+                aux4 = aux1;
+            }
+            else{
+                aux2 -> next = aux1;
+                aux2 = aux1;
+            }
+        }
+        else{
+            if(aux3 == NULL){
+                aux3 = aux1;
+                aux5 = aux1;
+            }
+            else{
+                aux3 -> next = aux1;
+                aux3 = aux1;
+            }
+        }
+        aux1 = aux1 -> next;
+    }
+    aux3 -> next = NULL;
+    lista = aux4;
+    aux2 -> next = aux5;
 }
